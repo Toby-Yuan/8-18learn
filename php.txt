@@ -58,3 +58,170 @@ function cmp ($a, $b){
 usort($x, "cmp");
 --> 用自己規定的方法做排序
 --> function可以用變數呼叫, 更可以用字串直接呼叫
+
+// 存取本地檔案位置
+__FILE__  : 完整的本地位置
+dirname ( __FILE__ ) : 檔案所在的資料夾位置
+basename ( __FILE__ ) : 檔名
+filesize ( __FILE__ ) : 檔案大小
+
+// 讀檔
+$fileDir = dirname ( __FILE__ )
+--> 先找位置資料夾
+
+$fileResource = opendir ( $fileDir )
+--> 開啟資料夾
+
+$item = readdir($fileResource)
+--> 閱讀資料夾
+
+closedir($fileResource)
+--> 關閉資料夾
+
+// html mix php
+// 原本
+<ul>
+    <?php 
+        for ($i = 1; $i <= 3; $i++) { 
+            echo "<li>$i</li>";
+        } 
+    ?>
+</ul>
+
+// 修改
+<ul>
+    <?php for ($i = 1; $i <= 3; $i++) { ?>
+        <li><?= $i ?></li>
+    <?php } ?>
+</ul>
+
+// html中標籤屬性裡面也可以加上php的程式碼, 針對不同情況上下沒有一定比較好的
+// 原本
+<ul>
+    <?php foreach ($scoreList as $score) { ?>
+        <?php if ($score < 60) { ?>
+            <li class="fail"><?= $score ?></li>
+        <?php }else{ ?>
+            <li class="pass"><?= $score ?></li>
+        <?php } ?>
+    <?php } ?>
+</ul>
+
+// 修改
+<ul>
+    <?php foreach ($scoreList as $score) { ?>
+        <li class=" <?= ( ($score >= 60)? "pass" : "fail" ) ?> "><?= $score ?></li>
+    <?php } ?>
+</ul>
+
+// 送檔案
+送出去的檔案會是陣列格式!!!
+move_uploaded_file ( $objFile ["tmp_name"], "./" . $objFile ["name"] ) --> 將暫時的資料移至目的地
+point : html中的input, type必須是file --> <input type="file" name="file1">
+        form則是要有enctype="multipart/form-data"
+
+// 範例
+<?php
+    if(isset($_POST["btnOK"])){
+        processFile ( $_FILES ["file1"] );
+    }
+    function processFile($objFile) {
+        if ($objFile ["error"] != 0) {
+            echo "Upload Fail! ";
+            echo "<a href='javascript:window.history.back();'>Back</a>";
+            return;
+        }
+        
+        $test = move_uploaded_file ( $objFile ["tmp_name"], "./" . $objFile ["name"] );
+        if (! $test) {
+            die ( "move_uploaded_file() faile" );
+        }
+        
+        echo "File uploaded<br />";
+        echo "File name: " . $objFile ["name"] . "<br />";
+        echo "File type: " . $objFile ["type"] . "<br />";
+        echo "File size: " . $objFile ["size"] . "<br />";
+        
+        echo "--  Done --";
+        exit ();
+    }
+?>
+<html>
+    <body>
+        <form enctype="multipart/form-data" method="POST" action="">
+            <input type="file" name="file1">
+            <input type="submit" name="btnOK">
+        </form>
+    </body>
+</html>
+
+// 讀檔案
+
+file("要讀取的url") --> 讀出來會是陣列格式(例如 : txt檔每一次換行都是一個項目)
+htmlspecialchars ( $line ) --> 檔案中所有的html格式都會變成文字, 而不是執行html格式, 資安問題
+// 範例
+<?php
+header("content-type: text/html; charset=utf-8");
+
+$lines = file ( 'data.txt' );
+foreach ( $lines as $line_num => $line ) {
+	echo "#<i>$line_num</i> : " . 
+		 htmlspecialchars ( $line ) . "<br />\n";
+}
+
+?>
+
+file_get_contents('要讀取的url') --> 讀出來的會是字串
+// 範例
+<?php
+	$contents = file_get_contents('data.txt');
+	echo (str_replace("\r\n", "<br />", $contents));
+?>
+
+file_put_contents("要寫入的url", $content) --> 寫入檔案
+// 範例
+<?php
+$content = <<<fileContent
+PHP基本語法重點整理、
+自訂函式寫作注意事項、
+陣列與相關函式、
+jQuery Mobile整合運用
+fileContent;
+
+$fileSize = file_put_contents("data2.txt", $content);
+echo "File size: $fileSize <br />-- Done --";
+?>
+
+// 將讀寫資料夾寫在一起(二元檔案)
+fopen(開啟) --> fgets(讀取) --> fclose(關閉)
+while (!feof($f)) --> 在檔案結尾處前
+// 範例
+<?php
+header("content-type: text/html; charset=utf-8");
+ 
+$sData = "";
+$f = fopen("data.txt", "r");
+while (!feof($f))
+{
+	$line = fgets($f);
+	$sData .= Trim($line) . "<br>";
+}
+fclose($f);
+echo $sData;
+
+?>
+
+// 將讀寫資料夾寫在一起(非二元檔案)
+fopen(開啟) --> fread(讀取) --> fclose(關閉)
+<?php
+header("Content-Type: image/png");
+
+$filename = "cc.png";
+$fileHandle = fopen($filename, "rb");
+echo fread($fileHandle, filesize($filename));
+fclose($filename);
+
+?>
+
+// 遷入html
+<img src="xx.php">
