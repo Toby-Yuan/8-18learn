@@ -225,3 +225,6 @@ fclose($filename);
 
 // 遷入html
 <img src="xx.php">
+
+// 箭頭????
+Client ----> Server
