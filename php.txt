@@ -256,3 +256,13 @@ $obj->y = 5;
 // __destruct : 當不被使用就執行一次, 在SESSION並不是歸零
 // __set : 只要設定不存在的新內容的值, 就會執行一次
 // __get : 只要呼叫不存在的新內容, 就會執行一次
+
+// class extends繼承
+// interface : 功能, 只要有呼叫到該功能, 就要把該功能裡的東西都要打一遍(可以打然後是空的)
+interface A {};
+interface B {};
+class father {};
+class son extends father implements A, B{};
+
+// try{}catch{}
+與JS一樣
