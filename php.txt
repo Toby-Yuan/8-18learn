@@ -1,0 +1,21 @@
+// 陣列
+// 自動編號(key), 自己編順序也可以, 但是順序要正確
+$arrayName[] = 'A';
+$arrayName[] = 'B';
+$arrayName[] = 'C';
+$arrayName[] = 'D';
+
+// 以下可以輸出陣列
+for ($i = 0; $i <= 3; $i++){
+    echo $arrayName[$i] . "<br>";
+}
+
+var_dump($arrayName);
+
+print_r($arrayName);
+
+// 手動編號(key)
+$myArray['name'] = "Jimmy";
+$myArray['height'] = 170;
+$myArray['weight'] = 80;
+echo $myArray['weight'];
