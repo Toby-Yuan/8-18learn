@@ -228,3 +228,31 @@ fclose($filename);
 
 // 箭頭????
 Client ----> Server
+
+// 類別Class
+// 裡面的東西都要加上public或是private, public是class外面也可以讀, private只有class裡面可以讀
+// function沒有加上的一律都是public, 也可以在()設定數值
+class clasName{
+    public $x;
+    public function funcName (){};
+}
+
+// 呼叫, 若呼叫不存在的會是空字串, 變數有分大小寫, 但是函式沒有分
+$obj = new clasName();
+$obj->x = 1; // 是箭頭, 不用有$
+echo $obj->x;
+$obj->funcName();
+echo $obj->y;
+
+// 函式呼叫的時候可以直接設定數值
+$obj->funcName(10);
+point : 函式裡面要用數值要打完整的, $obj->x
+
+// 在外面新增屬性
+$obj->y = 5;
+
+// 特殊函式
+// __construct : 建構式函式, 在new的當下就會執行一次
+// __destruct : 當不被使用就執行一次, 在SESSION並不是歸零
+// __set : 只要設定不存在的新內容的值, 就會執行一次
+// __get : 只要呼叫不存在的新內容, 就會執行一次
