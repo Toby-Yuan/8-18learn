@@ -19,3 +19,16 @@ $myArray['name'] = "Jimmy";
 $myArray['height'] = 170;
 $myArray['weight'] = 80;
 echo $myArray['weight'];
+point : $myArray['name'] != $myArray[0]
+
+// 比較好的寫法
+$myArray = array(
+    'name' => 'Jimmy',
+    'height' => 170,
+    'weight' => 80
+);
+
+// 針對手動編號的陣列, foreach可以更有效的顯示各項
+foreach ($myArray as $key => $value){
+    echo $key . $value;
+}
