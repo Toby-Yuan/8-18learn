@@ -32,3 +32,29 @@ $myArray = array(
 foreach ($myArray as $key => $value){
     echo $key . $value;
 }
+
+// 自動編號和手動編號可以混用, 但是建議不要
+$x = array("xxx" , "a1" => "yyy")
+
+// 手動編號不要用小數點
+$x = array(
+    0.1 => "A";
+    0.9 => "B"
+);
+echo $x[0] --> B
+
+// 排序
+$x = array("A1", "A2", "A18");
+sort($x);
+--> $x = sort($x), sort會是把原本的位置覆蓋掉
+--> A1, A18, A2, 是以字串做排序
+
+natsort($x);
+--> A1, A2, A18, 字串中有數字會用數字做排序
+
+function cmp ($a, $b){
+    return $b - $a;
+}
+usort($x, "cmp");
+--> 用自己規定的方法做排序
+--> function可以用變數呼叫, 更可以用字串直接呼叫
